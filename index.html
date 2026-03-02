@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DSN BOT - Pair with WhatsApp</title>
+</head>
+<body>
+  <h1>DSN BOT - Pair Your Number</h1>
+  <p>Enter your phone number with country code (e.g., 2557xxxxxxx)</p>
+  <form id="pairForm">
+    <input id="phone" placeholder="2557..." />
+    <button type="submit">Request Pair</button>
+  </form>
+  <div id="result"></div>
+
+  <script>
+    const form = document.getElementById('pairForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const phone = document.getElementById('phone').value.trim();
+      const res = await fetch('/request-pair', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ phone }) });
+      const j = await res.json();
+      document.getElementById('result').innerText = JSON.stringify(j, null, 2);
+    });
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DSN BOT - Admin</title>
+</head>
+<body>
+  <h1>DSN BOT - Admin Panel</h1>
+  <p>Open the console to see actions. You must provide ADMIN_SECRET when prompted.</p>
+  <button id="load">Load pending</button>
+  <div id="out"></div>
+
+  <script>
+    let secret = prompt('Enter ADMIN_SECRET');
+    document.getElementById('load').addEventListener('click', async () => {
+      const res = await fetch('/admin/pairs?secret='+encodeURIComponent(secret));
+      const j = await res.json();
+      document.getElementById('out').innerText = JSON.stringify(j, null, 2);
+    });
+
+    async function approve(id) {
+      const res = await fetch('/admin/approve', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ id, secret }) });
+      alert(await res.text());
+    }
+  </script>
+</body>
+</html>
